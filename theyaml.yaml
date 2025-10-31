@@ -15,7 +15,7 @@ api:
 
 ota:
   - platform: esphome
-    password: "JKEP6682"
+    password: "apassword4u"
 
 wifi:
   ssid: "your wifi"
