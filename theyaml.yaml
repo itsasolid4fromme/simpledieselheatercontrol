@@ -1,0 +1,58 @@
+esphome:
+  name: under-belly-heater-switch
+  friendly_name: Under Belly Heater Switch
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+logger:
+
+api:
+  encryption:
+    key: "your key from esphome builder"
+
+ota:
+  - platform: esphome
+    password: "apassword4u"
+
+wifi:
+  ssid: "your wifi"
+  password: "your wifi password"
+  ap:
+    ssid: "under-belly-heater-switch"
+    password: "a password you want"
+
+switch:
+  # --- Relay on GPIO4: "Heater Pulse On"
+  - platform: gpio
+    id: heater_pulse_on
+    name: "Heater Pulse On"
+    pin:
+      number: GPIO4
+      mode:
+        output: true
+      inverted: false
+    restore_mode: ALWAYS_OFF
+    on_turn_on:
+      - logger.log: "Heater Pulse On: start"
+      - delay: 500ms
+      - switch.turn_off: heater_pulse_on
+      - logger.log: "Heater Pulse On: end"
+
+  # --- Relay on GPIO16: "Heater Pulse Off"
+  - platform: gpio
+    id: heater_pulse_off
+    name: "Heater Pulse Off"
+    pin:
+      number: GPIO16
+      mode:
+        output: true
+      inverted: false
+    restore_mode: ALWAYS_OFF
+    on_turn_on:
+      - logger.log: "Heater Pulse Off: start"
+      - delay: 500ms
+      - switch.turn_off: heater_pulse_off
+      - logger.log: "Heater Pulse Off: end"
